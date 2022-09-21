@@ -6,7 +6,6 @@ import com.edu.ulab.app.storage.Storage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -16,11 +15,6 @@ public class UserRepositoryImpl implements UserRepository {
     private Storage storage;
 
     @Override
-    public List<UserEntity> findAll() {
-        return storage.selectAllUsers();
-    }
-
-    @Override
     public Optional<UserEntity> findById(Long id) {
         return Optional.ofNullable(storage.selectUserById(id));
     }
@@ -28,5 +22,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public UserEntity save(UserEntity user) {
         return storage.insertUser(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        storage.deleteUserById(id);
+    }
+
+    @Override
+    public UserEntity updateUser(Long id, UserEntity userEntity) {
+        return storage.updateUser(id, userEntity);
     }
 }

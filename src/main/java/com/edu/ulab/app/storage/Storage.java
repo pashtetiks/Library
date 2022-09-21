@@ -24,7 +24,8 @@ public class Storage {
 
     public UserEntity insertUser(UserEntity user) {
         user.setId(generateUserId());
-        return users.put(user.getId(), user);
+        users.put(user.getId(), user);
+        return user;
     }
 
     public BookEntity insertBook(BookEntity newBook) {
@@ -41,19 +42,23 @@ public class Storage {
     }
 
     private Long generateUserId() {
-        Long id = random.nextLong();
+        Long id = generateRandomPositiveNumber();
         while (users.containsKey(id)) {
-            id = random.nextLong();
+            id =generateRandomPositiveNumber();
         }
         return id;
     }
 
     private Long generateBookId() {
-        Long id = random.nextLong();
+        Long id = generateRandomPositiveNumber();
         while (books.containsKey(id)) {
-            id = random.nextLong();
+            id =generateRandomPositiveNumber();
         }
         return id;
+    }
+
+    private Long generateRandomPositiveNumber(){
+        return random.nextLong(Integer.MAX_VALUE);
     }
 
     public BookEntity updateBook(Long id, BookEntity updatedBook) {

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -52,8 +53,19 @@ public class UserDataFacade {
                 .build();
     }
 
-    public UserBookResponse updateUserWithBooks(UserBookRequest userBookRequest) {
-        return null;
+    public UserBookResponse updateUserWithBooks(Long userId, UserBookRequest userBookRequest) {
+        UserEntity user = userService.getUserById(userId);
+        Stream<Long> oldBookIds = user.getBookEntities()
+                .stream()
+                .map(BookEntity::getId);
+
+        Stream<Long> newBooksId = createBooks(userBookRequest.getBookRequests(), user.getId()).stream()
+                .map(BookEntity::getId);
+
+        return UserBookResponse.builder()
+                .userId(userId)
+                .booksIdList(Stream.concat(oldBookIds, newBooksId).toList())
+                .build();
     }
 
     public UserBookResponse getUserWithBooks(Long userId) {
@@ -70,6 +82,7 @@ public class UserDataFacade {
     }
 
     public void deleteUserWithBooks(Long userId) {
+        userService.deleteUserById(userId);
     }
 
     private UserEntity createUser(UserRequest userRequest) {

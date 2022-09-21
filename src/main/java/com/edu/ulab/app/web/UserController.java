@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @PutMapping(value = "/update")
-    public UserBookResponse updateUserWithBooks(@RequestBody UserBookRequest request) {
-        UserBookResponse response = userDataFacade.updateUserWithBooks(request);
+    public UserBookResponse updateUserWithBooks(@RequestParam(required = true) Long id, @RequestBody UserBookRequest request) {
+        UserBookResponse response = userDataFacade.updateUserWithBooks(id, request);
         log.info("Response with updated user and his books: {}", response);
         return response;
     }

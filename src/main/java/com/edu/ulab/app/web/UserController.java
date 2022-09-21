@@ -42,14 +42,14 @@ public class UserController {
     }
 
     @PutMapping(value = "/update")
-    public UserBookResponse updateUserWithBooks(@RequestBody UserBookRequest request) {
-        UserBookResponse response = userDataFacade.updateUserWithBooks(request);
+    public UserBookResponse updateUserWithBooks(@RequestParam(required = true) Long id, @RequestBody UserBookRequest request) {
+        UserBookResponse response = userDataFacade.updateUserWithBooks(id, request);
         log.info("Response with updated user and his books: {}", response);
         return response;
     }
 
     @GetMapping(value = "/get/{userId}")
-    public UserBookResponse updateUserWithBooks(@PathVariable Long userId) {
+    public UserBookResponse getUserWithBooks(@PathVariable Long userId) {
         UserBookResponse response = userDataFacade.getUserWithBooks(userId);
         log.info("Response with user and his books: {}", response);
         return response;
